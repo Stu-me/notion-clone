@@ -10,10 +10,10 @@ const errorHandler = require('./middlewares/errorHandlers');
 
 app.use(express.json())
 app.use(dbConnection);
-app.use('/api/auth',require('./routers/auth'));
-app.use('/api/workspaces',require('./routers/workspaces'));
-app.use('/api/pages',require('./routers/pages'));
-app.use('/api/blocks',require('./routers/blocks'));
+app.use('/api/auth',require('./routers/authRouters'));
+app.use('/api/workspaces',require('./routers/workspacesRouters'));
+app.use('/api/pages',require('./routers/pagesRouters'));
+app.use('/api/blocks',require('./routers/blocksRouters'));
 
 
 
