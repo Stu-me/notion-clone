@@ -3,14 +3,13 @@ const User = require('../models/userModel');
 const bcrypt = require('bcryptjs'); // good for deployement 
 const jwt = require('jsonwebtoken')
 const {userInputValidator,userLoginValidator} = require('../middlewares/userValidator');
-const { email } = require('zod');
 
 // will put in utility folder after checking the flow 
 
 const generateToken = (id)=>{
     return jwt.sign(
-        {id},
-        process.env.JWT_SECRET,
+        {id},                       // payload
+        process.env.JWT_SECRET,     // secret signature 
         {expiresIn:'10m'}
     )
 }
@@ -51,14 +50,14 @@ const registerUser = asyncHandler(async(req,res)=>{
 //@access public
 
 const loginUser = asyncHandler(async(req,res)=>{
-    validInput = userLoginValidator.parse(req.body);
+    const validInput = userLoginValidator.parse(req.body);
 
     const {email , password} = validInput;
 
     const validUser= await User.findOne({email:email});
 
     if(!validUser){
-        res.send("Register first");
+        return res.status(404).json({message:'Register first'});
     }
     const isMatch = await bcrypt.compare(password,validUser.password)
     if(!isMatch){
@@ -67,7 +66,10 @@ const loginUser = asyncHandler(async(req,res)=>{
     
     const token = generateToken(validUser._id);
     res.status(200).json({
-        _id:validUser
+        _id:validUser._id,
+        name:validUser.name,
+        email:validUser.email,
+        token
     });
 });
 
@@ -77,7 +79,8 @@ const loginUser = asyncHandler(async(req,res)=>{
 //@access private
 
 const userInfo = asyncHandler(async(req,res)=>{
-    res.status(200).json(req.user);
+    res.status(200).json(req.user); // req.user is formed from the the token we give 
+     // we create token and send id in it 
 });
 
 module.exports = {registerUser,loginUser,userInfo}
