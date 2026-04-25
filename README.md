@@ -64,3 +64,8 @@ blocks -> it contains all the information that is stored in the page
 8. Server verifies JWT on every protected route
 9. If valid → request goes through
 10. If invalid or expired → 401 Unauthorized
+
+
+** why use bcryptjs over bcrypt **
+
+cause bcrypt is not full in js and parts are in cpp so in deploying it will cause problems

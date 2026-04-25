@@ -7,3 +7,5 @@ router.post('/:pageId',()=>{});
 router.put('/:id',()=>{});
 router.delete('/:id',()=>{});
 router.patch('/reorder',()=>{});
+
+module.exports = router
