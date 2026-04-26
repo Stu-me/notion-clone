@@ -5,7 +5,7 @@ const pageSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    owner:{
+    workspace:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Workspace',
         required:true
@@ -14,7 +14,12 @@ const pageSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Block',
         // not required cause new page will have zero blocks
-    }]
+    }],
+    createdBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+    }
 },{
     timestamps:true
 })
