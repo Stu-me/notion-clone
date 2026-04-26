@@ -3,9 +3,14 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware')
 
-router.get('/',authMiddleware,()=>{})
-router.post('/',authMiddleware,()=>{})
-router.put('/:id',authMiddleware,()=>{})
-router.delete('/:id',authMiddleware,()=>{})
+const {getWorkspaces,createWorkspaces,updateWorkspaces,deleteWorkspaces} = require('../controllers/workplacecontroller')
+
+//remeber the authMiddleware check the token and gives 
+// us user info in req.user
+
+router.get('/',authMiddleware,getWorkspaces)
+router.post('/',authMiddleware,createWorkspaces)
+router.put('/:id',authMiddleware,updateWorkspaces)
+router.delete('/:id',authMiddleware,deleteWorkspaces)
 
 module.exports = router

@@ -7,7 +7,7 @@ const workSpaceSchema = mongoose.Schema({
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:'User', // _id  here which will act as common connector 
         required:true
     },
     pages:[{

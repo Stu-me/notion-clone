@@ -69,3 +69,11 @@ blocks -> it contains all the information that is stored in the page
 ** why use bcryptjs over bcrypt **
 
 cause bcrypt is not full in js and parts are in cpp so in deploying it will cause problems
+
+
+# Now we will make workplaces controllers
+
+* getWorkspaces
+* createWorkspaces
+* updateWorkspaces
+* deleteWorkspaces

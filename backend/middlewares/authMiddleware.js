@@ -28,7 +28,7 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
             }
 
             // STEP 5 — Pass control to the actual controller
-            next();
+           return next();
 
         } catch (error) {
             // jwt.verify threw — token is invalid or expired

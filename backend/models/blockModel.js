@@ -12,7 +12,7 @@ const blockSchema = mongoose.Schema({
     },
     page:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Page',
+        ref:'Page', // page stores the id that is of the page model
         required:true,
     },
     content:{
