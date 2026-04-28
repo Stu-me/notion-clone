@@ -6,42 +6,42 @@ const errorHandler = (err, req, res, next)=>{
     switch(statusCode){
         case HTTP_STATUS_CODES.BAD_REQUEST:
             return res.status(statusCode).json({
-                Title:'Bad Request',
+                title:'Bad Request',
                 message:err.message
             });
         case HTTP_STATUS_CODES.UNAUTHORIZED_ACCESS:
             return res.status(statusCode).json({
-                Title:'Unauthorized',
+                title:'Unauthorized',
                 message:err.message
             });
         case HTTP_STATUS_CODES.FORBIDDEN:
             return res.status(statusCode).json({
-                Title:'Forbidden',
+                title:'Forbidden',
                 message:err.message
             });
         case HTTP_STATUS_CODES.NOT_FOUND:
             return res.status(statusCode).json({
-                Title:'Not Found',
+                title:'Not Found',
                 message:err.message
             });
         case HTTP_STATUS_CODES.TOO_MANY_REQUESTS:
             return res.status(statusCode).json({
-                Title:'Too Many Requests',
+                title:'Too Many Requests',
                 message:err.message
             });
         case HTTP_STATUS_CODES.BAD_GATEWAY:
             return res.status(statusCode).json({
-                Title:'Bad Gateway',
+                title:'Bad Gateway',
                 message:err.message
             });
         case HTTP_STATUS_CODES.SERVICE_UNAVAILABLE:
             return res.status(statusCode).json({
-                Title:'Service Unavailable',
+                title:'Service Unavailable',
                 message:err.message
             });
         default:
             return res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
-                Title:'Internal Server Error',
+                title:'Internal Server Error',
                 message:err.message || 'Something went wrong'
             });
     }

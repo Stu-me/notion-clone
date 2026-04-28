@@ -76,4 +76,4 @@ cause bcrypt is not full in js and parts are in cpp so in deploying it will caus
 * getWorkspaces
 * createWorkspaces
 * updateWorkspaces
-* deleteWorkspaces
+* deleteWorkspaces  

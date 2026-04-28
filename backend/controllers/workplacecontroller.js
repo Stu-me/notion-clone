@@ -33,10 +33,12 @@ const updateWorkspaces = asyncHandler(async (req, res) => {
   const workspace = await Workspace.findById(id);
   // if no workspace found
   if (!workspace) {
-    return res.status(404).json({ message: "User not found " });
+    res.status(404);
+    throw new Error("User not found ");
   }
   if (workspace.owner.toString() !== req.user._id.toString()) {
-    return res.status(403).json({ message: "Unauthorized access" });
+    res.status(403);
+    throw new Error("Unauthorized access");
   }
   const updated = await Workspace.findbyIdAndUpdate(
     id, //id for finiding
@@ -50,10 +52,12 @@ const deleteWorkspaces = asyncHandler(async(req, res) => {
     const id = req.params.id;
     const workspace = await Workspace.findById(id);
     if(!workspace){
-        return res.status(404).json({message:"Workspace not found"});
+      res.status(404);
+      throw new Error("Workspace not found");
     }
     if(workspace.owner.toString() !== req.user._id.toString()){
-        return res.status(403).json({message:"You dont have ownership access"});
+      res.status(403);
+      throw new Error("You dont have ownership access");
     }
     const deleted = await Workspace.findbyIdAndDelete(id);
 

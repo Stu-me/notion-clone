@@ -1,16 +1,17 @@
 const Page = require('../models/pageModel'); // for db op on page data
+const Workspace = require('../models/workspaceModel')
 const asyncHandler = require('express-async-handler');
-
-getPage,createPage,getAllPages,updatePage,deletePage
 
 const getPage = asyncHandler(async(req,res)=>{
     const id = req.params.id;
     const page = await Page.findById(id);
     if(!page){
-        return res.status(404).json({message:'No Page Found'});
+        res.status(404);
+        throw new Error('No Page Found');
     }
     if(page.createdBy.toString() !== req.user._id.toString()){
-        return res.status(403).json({message:'Not Authorized'})
+        res.status(403);
+        throw new Error('Not Authorized');
     }
     return res.status(200).json(page);
 });
@@ -18,10 +19,10 @@ const getPage = asyncHandler(async(req,res)=>{
 
 const getAllPages = asyncHandler(async(req,res)=>{
 
-    const pages = await Page.find(
-        {createdBy:req.user._id},
-        {workspace:req.query.workspaceId} // passed as query param from frontedn
-    );
+    const pages = await Page.find({
+        createdBy:req.user._id,
+        workspace:req.query.workspaceId // passed as query param from frontend
+    });
     //only returns the pages of that user who is logged in  and what the workspace he need
     return res.status(200).json(pages);
 })
@@ -45,11 +46,13 @@ const updatePage = asyncHandler(async(req,res)=>{
     const id = req.params.id; // page id given by user as params
     const page = await Page.findById(id);
     if(!page){
-        return res.status(404).json({message:"Invalid credentials"});
+        res.status(404);
+        throw new Error("Invalid credentials");
     }
     if(page.createdBy.toString() !== req.user._id.toString()){
         // checking authorization
-       return res.status(403).json({message:"You are not authorized to access this page"})
+       res.status(403);
+       throw new Error("You are not authorized to access this page");
     }
     const updatedPage = await Page.findByIdAndUpdate(
         id,
@@ -62,11 +65,13 @@ const deletePage = asyncHandler(async(req,res)=>{
     const id = req.params.id; // page id given by user as params
     const page = await Page.findById(id);
     if(!page){
-        return res.status(404).json({message:"Invalid credentials"});
+        res.status(404);
+        throw new Error("Invalid credentials");
     }
     if(page.createdBy.toString() !== req.user._id.toString()){
         // checking authorization
-       return res.status(403).json({message:"You are not authorized to access this page"})
+       res.status(403);
+       throw new Error("You are not authorized to access this page");
     }
     await Page.findByIdAndDelete(id);
     await Workspace.findByIdAndUpdate(
@@ -76,3 +81,4 @@ const deletePage = asyncHandler(async(req,res)=>{
      return res.status(200).json({message:"Page deleted"})
 })
 
+module.exports = {getPage,getAllPages,createPage,updatePage,deletePage  }

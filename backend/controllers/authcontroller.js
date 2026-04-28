@@ -25,7 +25,8 @@ const registerUser = asyncHandler(async(req,res)=>{
     const emailExists = await User.findOne({email});
 
     if(emailExists){
-        return res.status(400).json({message:"Email already registered"});
+        res.status(400);
+        throw new Error("Email already registered");
     }
 
     const hashedPassword = await bcrypt.hash(password,10);
@@ -57,11 +58,13 @@ const loginUser = asyncHandler(async(req,res)=>{
     const validUser= await User.findOne({email:email});
 
     if(!validUser){
-        return res.status(404).json({message:'Register first'});
+        res.status(404);
+        throw new Error('Register first');
     }
     const isMatch = await bcrypt.compare(password,validUser.password)
     if(!isMatch){
-        return res.status(400).json({message:'invalid credentials'})
+        res.status(400);
+        throw new Error('invalid credentials');
     }
     
     const token = generateToken(validUser._id);
