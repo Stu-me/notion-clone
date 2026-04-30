@@ -4,6 +4,9 @@ const asyncHandler = require("express-async-handler");
 //  here we have to work with database so we must have the model
 // our task is to return all the workspaces and the frontend will see what to do
 
+// @desc Get workspaces for the authenticated user
+// @route GET /workspaces
+// @access private
 const getWorkspaces = asyncHandler(async (req, res) => {
   //in getWorkspaces we need to bringout all the pages saved in that workspace
   const { _id } = req.user;
@@ -16,6 +19,9 @@ const getWorkspaces = asyncHandler(async (req, res) => {
   return res.status(200).json(workspaces);
 });
 
+// @desc Create a new workspace
+// @route POST /workspaces
+// @access private
 const createWorkspaces = asyncHandler(async (req, res) => {
   // just create new workspace with name and assinged to an owner
   const workspace = await Workspace.create({
@@ -25,6 +31,9 @@ const createWorkspaces = asyncHandler(async (req, res) => {
   res.status(201).json(workspace);
 });
 
+// @desc Update an existing workspace
+// @route PUT /workspaces/:id
+// @access private
 const updateWorkspaces = asyncHandler(async (req, res) => {
   // for update we need to change the existing workspace
   // user will give us the id of the workspace as this is the only way to target correct one
@@ -48,6 +57,9 @@ const updateWorkspaces = asyncHandler(async (req, res) => {
   return res.status(200).json(updated);
 });
 
+// @desc Delete a workspace
+// @route DELETE /workspaces/:id
+// @access private
 const deleteWorkspaces = asyncHandler(async(req, res) => {
     const id = req.params.id;
     const workspace = await Workspace.findById(id);

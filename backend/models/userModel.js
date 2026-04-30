@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { string } = require("zod");
 
 const userSchema = mongoose.Schema(
   {
@@ -14,6 +15,12 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    resetPasswordToken:{
+      type:String
+    },
+    resetPasswordExpire:{
+      type:Date
     },
     currentStreak: { type: Number, default: 0 },
     lastActiveDate: { type: Date }

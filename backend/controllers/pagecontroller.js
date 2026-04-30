@@ -2,6 +2,9 @@ const Page = require('../models/pageModel'); // for db op on page data
 const Workspace = require('../models/workspaceModel')
 const asyncHandler = require('express-async-handler');
 
+// @desc Get a single page by id
+// @route GET /pages/:id
+// @access private
 const getPage = asyncHandler(async(req,res)=>{
     const id = req.params.id;
     const page = await Page.findById(id);
@@ -17,6 +20,9 @@ const getPage = asyncHandler(async(req,res)=>{
 });
 
 
+// @desc Get all pages for the authenticated user (optionally by workspace)
+// @route GET /pages?workspaceId=<workspaceId>
+// @access private
 const getAllPages = asyncHandler(async(req,res)=>{
 
     const pages = await Page.find({
@@ -28,6 +34,9 @@ const getAllPages = asyncHandler(async(req,res)=>{
 })
 
 
+// @desc Create a new page
+// @route POST /pages
+// @access private
 const createPage = asyncHandler(async(req,res)=>{
     const createdPage = await Page.create({
         title:req.body.title,
@@ -42,6 +51,9 @@ const createPage = asyncHandler(async(req,res)=>{
     return res.status(201).json(createdPage)
 });
 
+// @desc Update a page title
+// @route PUT /pages/:id
+// @access private
 const updatePage = asyncHandler(async(req,res)=>{
     const id = req.params.id; // page id given by user as params
     const page = await Page.findById(id);
@@ -61,6 +73,9 @@ const updatePage = asyncHandler(async(req,res)=>{
     );
      return res.status(200).json(updatedPage)
 })
+// @desc Delete a page
+// @route DELETE /pages/:id
+// @access private
 const deletePage = asyncHandler(async(req,res)=>{
     const id = req.params.id; // page id given by user as params
     const page = await Page.findById(id);

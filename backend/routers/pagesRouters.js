@@ -3,7 +3,7 @@ const {getPage,createPage,getAllPages,updatePage,deletePage} = require('../contr
 const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
-router.get('/',authMiddleware,getAllPage);
+router.get('/',authMiddleware,getAllPages);
 router.post('/',authMiddleware,createPage);
 router.get('/:id',authMiddleware,getPage);
 router.put('/:id',authMiddleware,updatePage)

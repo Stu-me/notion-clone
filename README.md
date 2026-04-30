@@ -77,3 +77,18 @@ cause bcrypt is not full in js and parts are in cpp so in deploying it will caus
 * createWorkspaces
 * updateWorkspaces
 * deleteWorkspaces  
+
+# did the same with page and block controller
+
+# forgot password
+
+1. User clicks "Forgot Password"
+2. Enters their email
+3. Backend generates a secure random token
+4. Stores that token (hashed) in DB with an expiry — usually 10-15 minutes
+5. Sends an email with a reset link containing that token
+6. User clicks link → goes to reset password page
+7. Frontend sends new password + token to backend
+8. Backend finds user by token, checks expiry
+9. Hashes new password, saves it, clears the token
+10. User logs in with new password

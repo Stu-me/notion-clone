@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs'); // good for deployement 
+const crypto = require('crypto'); 
 const jwt = require('jsonwebtoken')
 const {userInputValidator,userLoginValidator} = require('../middlewares/userValidator');
 
@@ -86,4 +87,22 @@ const userInfo = asyncHandler(async(req,res)=>{
      // we create token and send id in it 
 });
 
-module.exports = {registerUser,loginUser,userInfo}
+const forgotPassword = asyncHandler(async(req,res)=>{
+    const {email} = req.body; // as he forgot password we take his email
+    
+    const user = await User.findOne({email});
+    // check if valid email
+    if(!user){
+        res.status(404);
+        throw new Error('User not found');
+    }
+    //generate raw token 
+    const resetToken = crypto.randomBytes(32).toString('hex') ;
+    
+    
+})
+const resetPassword = ()=>{
+    
+}
+
+module.exports = {registerUser,loginUser,userInfo,forgotPassword,resetPassword}
