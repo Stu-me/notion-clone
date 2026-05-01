@@ -96,13 +96,53 @@ const forgotPassword = asyncHandler(async(req,res)=>{
         res.status(404);
         throw new Error('User not found');
     }
-    //generate raw token 
+    //generate raw token and it is not stored anywhere in database rather its hashed version is stored for security 
     const resetToken = crypto.randomBytes(32).toString('hex') ;
     
+    // hash token (store this)
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
     
-})
-const resetPassword = ()=>{
+    // save it in database 
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = Date.now() + 5*60*1000; // user expiry time starts from current to 5 min extra 
+
+    await user.save(); // this line act as user.update() for the user. changes we did 
+
+    // log token 
+    console.log("Reset token:",resetToken);
+
+    res.status(200).json({
+        message:"Reset token generated (check console)"
+    });
     
-}
+});
+const resetPassword  = asyncHandler(async(req,res)=>{
+    const {password} = req.body;
+
+    // as we have token we hash it to check if it is same 
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+    // find matching user
+    const user = await User.findOne({ // checks if both valid
+      resetPasswordToken:hashedToken, // checking for same token 
+      resetPasswordExpire:{$gt:Date.now()} // check if the  time is greater than current time
+    });
+
+    if(!user){
+        res.status(400);
+        throw new Error('Invalid or expired token')
+    }
+    //set new password 
+    user.password = password;
+
+    // clear reset fields so that it could not be used later after password updation
+    user.resetPasswordToken  = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+    res.status(200).json({
+        message: "Password reset successful"
+    });
+});
 
 module.exports = {registerUser,loginUser,userInfo,forgotPassword,resetPassword}

@@ -92,3 +92,14 @@ cause bcrypt is not full in js and parts are in cpp so in deploying it will caus
 8. Backend finds user by token, checks expiry
 9. Hashes new password, saves it, clears the token
 10. User logs in with new password
+
+user → requests reset
+→ system generates secret token
+→ stores hashed version
+→ gives raw token (console)
+
+Forgot password:
+User → request → token generated → stored (hashed)
+
+Reset password:
+User → sends token → hashed → matched → password updated
