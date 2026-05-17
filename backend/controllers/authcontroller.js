@@ -117,7 +117,7 @@ const forgotPassword = asyncHandler(async(req,res)=>{
     await user.save(); // this line act as user.update() for the user. changes we did 
 
     //email the token 
-    const resetURL = `http://localhost:8000/resetpassword/${resetToken}`
+    const resetURL = `http://localhost:8000/api/auth/resetpassword/${resetToken}`
     const message = `
     You requested password reset.
     
