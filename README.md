@@ -103,3 +103,6 @@ User → request → token generated → stored (hashed)
 
 Reset password:
 User → sends token → hashed → matched → password updated
+
+# getting started with nodemailer 
+
